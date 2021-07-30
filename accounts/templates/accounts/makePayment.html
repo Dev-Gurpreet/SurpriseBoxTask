@@ -1,0 +1,52 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+<h1>MakePayment</h1>
+
+<div class="col-lg-6">
+    <div class="box-element">
+        <h5>Surprise Box Contest SubScription Fee:</h5>     
+        <h3>Amount:   $100</h3>
+    </div>
+</div>
+
+<div class="box-element hidden" id="payment-info">
+    <!-- Set up a container element for the button -->
+    <h3>You can configure it with your PayPal Account and it will automatically subcribe for user</h3>
+    <div id="paypal-button-container"></div>
+</div>
+
+<div class="box-element">
+    <h3>For Testing I just bypass the payment:<br>Click Payment Bypass button</h3>
+    <input type="button" onclick="window.location.href='/process_subscription'" value="Payment Bypass">
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script> <!-- Setup Clientid=  -->
+
+<script>
+    var total = 100
+    paypal.Buttons({
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: parseFloat(total).toFixed(2)
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                submitFormData()
+            });
+        }
+
+
+    }).render('#paypal-button-container');
+
+
+</script>
+
+{% endblock content %}

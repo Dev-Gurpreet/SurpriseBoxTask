@@ -1,0 +1,21 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+<div id="Winner">
+
+</div>
+<p>{{user}} visit's this page:{{subscriber.visitCount}}</p>
+<p>Only for Subscribed Users: Requirement Winner Count ={{winner_requirement}}</p>
+<h1>Surprise Gift Contest</h1>
+
+<input type="button" onclick="window.location.href='/makePayment'" value="{{subscriber.get_subscribe_Button}}">
+<input type="button" onclick="window.location.reload();" value="Reload Page">
+
+<script>
+    var winner = '{{subscriber.winner}}'
+    if (winner == 'True'){
+        alert('Surprise, you win a exciting gift');
+        document.getElementById("Winner").innerHTML += 
+              "<h1>You are a Winner</h1>";
+    }
+</script>
+{% endblock content %}
